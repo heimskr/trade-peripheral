@@ -35,5 +35,4 @@ public class Blocks {
 	public static boolean never(BlockState state, BlockGetter level, BlockPos pos) {
 		return false;
 	}
-
 }

@@ -20,6 +20,7 @@ import gay.heimskr.tradeperipheral.common.addons.computercraft.operations.Sphere
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,14 +46,10 @@ import org.apache.logging.log4j.Logger;
 public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 
 	public static final String TYPE = "trader";
-	private static final List<Function<IPeripheralOwner, IPeripheralPlugin>> PLUGINS = new LinkedList<>();
 	private static final Logger LOGGER = TradePeripheral.LOGGER;
 
 	protected TraderPeripheral(IPeripheralOwner owner) {
 		super(TYPE, owner);
-		owner.attachOperation(SphereOperation.SCAN_ENTITIES);
-		for (Function<IPeripheralOwner, IPeripheralPlugin> plugin : PLUGINS)
-			addPlugin(plugin.apply(owner));
 	}
 
 	public TraderPeripheral(PeripheralBlockEntity<?> tileEntity) {
@@ -61,25 +58,8 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 
 	@Override
 	public boolean isEnabled() {
-		return APConfig.PERIPHERALS_CONFIG.enableEnergyDetector.get();
+		return true;
 	}
-
-//    @LuaFunction(mainThread = true)
-//    public final MethodResult scanEntities(@Nonnull IComputerAccess access, @Nonnull IArguments arguments) throws LuaException {
-//        int radius = arguments.getInt(0);
-//        return withOperation(SphereOperation.SCAN_ENTITIES, new SphereOperationContext(radius), context -> {
-//            if (radius > SphereOperation.SCAN_ENTITIES.getMaxCostRadius()) {
-//                return MethodResult.of(null, "Radius is exceed max value");
-//            }
-//            return null;
-//        }, context -> {
-//            BlockPos pos = owner.getPos();
-//            AABB box = new AABB(pos);
-//            List<Map<String, Object>> entities = new ArrayList<>();
-//            getLevel().getEntities((Entity) null, box.inflate(radius), LivingEntity.class::isInstance).forEach(entity -> entities.add(LuaConverter.completeEntityWithPositionToLua(entity, ItemStack.EMPTY, pos)));
-//            return MethodResult.of(entities);
-//        }, null);
-//    }
 
 	public static class Trade {
 		ItemStack costA;
