@@ -58,7 +58,6 @@ public class TradePeripheral {
     @SubscribeEvent
     public void commonSetup(FMLCommonSetupEvent event) {
 //        event.enqueueWork(() -> {});
-        LOGGER.info("TradePeripheral commonSetup :)");
     }
 
     public void clientSetup(FMLClientSetupEvent event) {

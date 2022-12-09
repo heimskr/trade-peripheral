@@ -1,26 +1,26 @@
 {
   "variants": {
     "facing=north": {
-      "model": "advancedperipherals:block/trader"
+      "model": "tradeperipheral:block/trader"
     },
     "facing=south": {
-      "model": "advancedperipherals:block/trader",
+      "model": "tradeperipheral:block/trader",
       "y": 180
     },
     "facing=east": {
-      "model": "advancedperipherals:block/trader",
+      "model": "tradeperipheral:block/trader",
       "y": 90
     },
     "facing=west": {
-      "model": "advancedperipherals:block/trader",
+      "model": "tradeperipheral:block/trader",
       "y": 270
     },
     "facing=down": {
-      "model": "advancedperipherals:block/trader",
+      "model": "tradeperipheral:block/trader",
       "x": 90
     },
     "facing=up": {
-      "model": "advancedperipherals:block/trader",
+      "model": "tradeperipheral:block/trader",
       "x": 270
     }
   }
