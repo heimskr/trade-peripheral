@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "All rights reserved"
+issueTrackerURL = "https://github.com/heimskr/trade-peripheral/issues"
+logoFile = "pack.png"
+[[mods]]
+modId = "tradeperipheral"
+version = "${file.jarVersion}"
+displayName = "Trade Peripheral"
+displayURL = "https://heimskr.gay/"
+authors = "Heimskr"
+description = '''
+Trade Peripheral is a mod that adds a ComputerCraft peripheral to automate villager trades.
+'''
+[[dependencies.tradeperipheral]]
+modId = "forge"
+mandatory = true
+versionRange = "[40.1.52,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.tradeperipheral]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.tradeperipheral]]
+modId = "computercraft"
+mandatory = true
+versionRange = "[1.100.4,)"
+ordering = "NONE"
+side = "BOTH"

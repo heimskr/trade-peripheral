@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "north": "advancedperipherals:block/trader",
+    "south": "advancedperipherals:block/trader",
+    "west": "advancedperipherals:block/trader",
+    "east": "advancedperipherals:block/trader",
+    "up": "advancedperipherals:block/trader_front",
+    "down": "advancedperipherals:block/trader",
+    "particle": "advancedperipherals:block/trader"
+  }
+}

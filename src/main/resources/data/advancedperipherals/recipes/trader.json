@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "EIE",
+    " E "
+  ],
+  "conditions": [
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "I": {
+      "tag": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "tradeperipheral:trader"
+  }
+}
