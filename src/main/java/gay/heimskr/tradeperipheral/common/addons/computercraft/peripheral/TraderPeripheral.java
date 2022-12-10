@@ -26,6 +26,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -77,12 +78,10 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		}
 
 		public List<Object> toLua() {
-			return Arrays.asList(
-				Arrays.asList(costA.getDescriptionId(), costA.getCount()),
-				Arrays.asList(costB.getDescriptionId(), costB.getCount()),
-				uses,
-				max
-			);
+			List<Object> costs = Arrays.asList(Arrays.asList(costA.getDescriptionId(), costA.getCount()));
+			if (!(costB.getItem() instanceof AirItem))
+				costs.add(Arrays.asList(costA.getDescriptionId(), costA.getCount()));
+			return Arrays.asList(costs, uses, max);
 		}
 	}
 
@@ -99,13 +98,8 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		if (villagers.size() == 0)
 			return MethodResult.of("no_villagers");
 
-		if (villagers.size() == 1) {
-			List<Object> out = new ArrayList<>();
-			villagers.get(0).getOffers().forEach(offer -> {
-				out.add(new Trade(offer).toLua());
-			});
-			return MethodResult.of(out);
-		}
+		if (villagers.size() == 1)
+			return MethodResult.of(villagers.get(0).getOffers().stream().map(offer -> new Trade(offer).toLua()).toList());
 
 		return MethodResult.of("multiple_villagers");
 	}
