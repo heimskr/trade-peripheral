@@ -30,3 +30,9 @@ mandatory = true
 versionRange = "[1.100.4,)"
 ordering = "NONE"
 side = "BOTH"
+[[dependencies.tradeperipheral]]
+modId = "villagertools"
+mandatory = true
+versionRange = "[1.0.2,)"
+ordering = "NONE"
+side = "BOTH"

@@ -224,6 +224,9 @@ repositories {
             password = "\u0067hp_oGjcDFCn8jeTzIj4Ke9pLoEVtpnZMP4VQgaX"
         }
     }
+    maven {
+        url 'https://www.cursemaven.com'
+    }
 }
 
 configurations {
@@ -237,6 +240,9 @@ dependencies {
     compileOnly "org.jetbrains:annotations:${jb_annotations}"
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation fg.deobf("org.squiddev:cc-tweaked-${cc_version}")
+
+
+    implementation fg.deobf("curse.maven:villager-tools-469301:3544598")
     // Compile-time API required
     // Ae2
     // compileOnly fg.deobf("appeng:appliedenergistics2:${appliedenergistics_version}")

@@ -1,5 +1,6 @@
 package gay.heimskr.tradeperipheral.common.container;
 
+import gay.heimskr.tradeperipheral.TradePeripheral;
 import gay.heimskr.tradeperipheral.common.container.base.BaseContainer;
 import gay.heimskr.tradeperipheral.common.container.base.SlotCondition;
 import gay.heimskr.tradeperipheral.common.container.base.SlotInputHandler;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
+import com.lothrazar.villagertools.ModRegistry;
 
 public class TraderContainer extends BaseContainer {
 
@@ -21,8 +23,8 @@ public class TraderContainer extends BaseContainer {
         layoutPlayerInventorySlots(7, 84);
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-//                addSlot(new SlotInputHandler(handler, 0, 79, 29, new SlotCondition().setNeededItem(Items.MEMORY_CARD.get()))); //Input
-                addSlot(new SlotInputHandler(handler, 0, 79, 29, new SlotCondition().setNeededItem(net.minecraft.world.item.Items.EMERALD)));
+                addSlot(new SlotInputHandler(handler, 0, 79 - 9, 29, new SlotCondition().setNeededItem(net.minecraft.world.item.Items.EMERALD)));
+                addSlot(new SlotInputHandler(handler, 1, 79 + 9, 29, new SlotCondition().setNeededItem(ModRegistry.RESTOCK.get())));
             });
         }
     }
@@ -47,6 +49,10 @@ public class TraderContainer extends BaseContainer {
             } else if (index <= 35) {
                 if (itemstack1.getItem().equals(net.minecraft.world.item.Items.EMERALD)) {
                     if (!this.moveItemStackTo(itemstack1, 36, 37, true)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (itemstack1.getItem().equals(ModRegistry.RESTOCK.get())) {
+                    if (!this.moveItemStackTo(itemstack1, 37, 38, true)) {
                         return ItemStack.EMPTY;
                     }
                 }

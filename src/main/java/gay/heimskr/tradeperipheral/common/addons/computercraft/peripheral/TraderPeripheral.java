@@ -86,13 +86,12 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 	}
 
 	@LuaFunction(mainThread = true)
-	public final MethodResult listTrades() {
+	public final MethodResult getTrades() {
 		var villagers = new ArrayList<Villager>();
 
 		getLevel().getEntities((Entity) null, new AABB(owner.getPos()).inflate(0., 2., 0.), Villager.class::isInstance).forEach(entity -> {
-			if (entity instanceof Villager) {
+			if (entity instanceof Villager)
 				villagers.add((Villager) entity);
-			}
 		});
 
 		if (villagers.size() == 0)
