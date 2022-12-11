@@ -1,5 +1,6 @@
 package gay.heimskr.tradeperipheral.common.addons.computercraft.peripheral;
 
+import com.lothrazar.villagertools.ModRegistry;
 import dan200.computercraft.api.lua.*;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.pocket.IPocketAccess;
@@ -12,6 +13,7 @@ import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.IPeripheral
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.PocketPeripheralOwner;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.TurtlePeripheralOwner;
 import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
+import gay.heimskr.tradeperipheral.common.blocks.blockentities.TraderEntity;
 import gay.heimskr.tradeperipheral.common.configuration.APConfig;
 import gay.heimskr.tradeperipheral.common.util.LuaConverter;
 import gay.heimskr.tradeperipheral.lib.peripherals.BasePeripheral;
@@ -85,14 +87,20 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		}
 	}
 
-	@LuaFunction(mainThread = true)
-	public final MethodResult getTrades() {
+	private final List<Villager> getVillagers() {
 		var villagers = new ArrayList<Villager>();
 
 		getLevel().getEntities((Entity) null, new AABB(owner.getPos()).inflate(0., 2., 0.), Villager.class::isInstance).forEach(entity -> {
 			if (entity instanceof Villager)
 				villagers.add((Villager) entity);
 		});
+
+		return villagers;
+	}
+
+	@LuaFunction(mainThread = true)
+	public final MethodResult getTrades() {
+		var villagers = getVillagers();
 
 		if (villagers.size() == 0)
 			return MethodResult.of("no_villagers");
@@ -101,5 +109,36 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 			return MethodResult.of(villagers.get(0).getOffers().stream().map(offer -> new Trade(offer).toLua()).toList());
 
 		return MethodResult.of("multiple_villagers");
+	}
+
+	@LuaFunction(mainThread = true)
+	public final MethodResult restock() {
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
+
+		ItemStack stack = entity.getItem(1);
+		int restocks = 0;
+		int initialSize = stack.getCount();
+
+		if (!stack.isEmpty() && stack.getItem().equals(ModRegistry.RESTOCK.get())) {
+			for (Villager villager: getVillagers()) {
+				boolean restocked = false;
+
+				for (var offer: villager.getOffers()) {
+					if (0 < offer.getUses()) {
+						offer.resetUses();
+						restocked = true;
+					}
+				}
+
+				if (restocked) {
+					++restocks;
+					stack.shrink(1);
+					if (stack.isEmpty())
+						break;
+				}
+			}
+		}
+
+		return MethodResult.of(Arrays.asList(restocks, initialSize - restocks));
 	}
 }
