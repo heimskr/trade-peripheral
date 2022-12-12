@@ -69,7 +69,7 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		}
 	}
 
-	private final List<Villager> getVillagers() {
+	private List<Villager> getVillagers() {
 		var villagers = new ArrayList<Villager>();
 
 		getLevel().getEntities((Entity) null, new AABB(owner.getPos()).inflate(0., 2., 0.), Villager.class::isInstance).forEach(entity -> {
@@ -96,32 +96,37 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 	@LuaFunction(mainThread = true)
 	public final MethodResult restock() {
 		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
+		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
 
-		ItemStack stack = entity.getItem(1);
 		int restocks = 0;
-		int initialSize = stack.getCount();
+		final ItemStack toExtract = new ItemStack(ModRegistry.RESTOCK.get(), 1);
 
-		if (!stack.isEmpty() && stack.getItem().equals(ModRegistry.RESTOCK.get())) {
-			for (Villager villager: getVillagers()) {
-				boolean restocked = false;
+		for (Villager villager: getVillagers()) {
+			boolean restocked = false;
 
-				for (MerchantOffer offer: villager.getOffers()) {
-					if (0 < offer.getUses()) {
-						offer.resetUses();
-						restocked = true;
-					}
+			if (!ItemUtil.canExtract(handler, toExtract, false))
+				break;
+
+			for (MerchantOffer offer: villager.getOffers()) {
+				if (0 < offer.getUses()) {
+					offer.resetUses();
+					restocked = true;
 				}
+			}
 
-				if (restocked) {
-					++restocks;
-					stack.shrink(1);
-					if (stack.isEmpty())
+			if (restocked) {
+				try {
+					if (!ItemUtil.extract(handler, toExtract, false))
 						break;
+				} catch (ImpossibleException oops) {
+					break;
 				}
+
+				++restocks;
 			}
 		}
 
-		return MethodResult.of(Arrays.asList(restocks, initialSize - restocks));
+		return MethodResult.of(restocks);
 	}
 
 	@LuaFunction(mainThread = true)
@@ -188,6 +193,8 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 				TradePeripheral.debug(oops.getMessage());
 				return MethodResult.of("impossible_insertion");
 			}
+
+			foundOffer.increaseUses();
 		}
 
 		return MethodResult.of(true);

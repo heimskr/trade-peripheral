@@ -123,10 +123,11 @@ public class ItemUtil {
 		for (int slot = 0; slot < slotCount; ++slot) {
 			ItemStack inSlot = handler.getStackInSlot(slot);
 			if (inSlot.sameItem(stack) && (!checkNBT || compareNBT(stack, inSlot)))
-				countRemaining -= inSlot.getCount();
+				if ((countRemaining -= inSlot.getCount()) <= 0)
+					return true;
 		}
 
-		return countRemaining <= 0;
+		return false;
 	}
 
 	public static boolean extract(IItemHandler handler, ItemStack stack) throws ImpossibleException {
