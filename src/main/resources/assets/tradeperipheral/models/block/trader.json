@@ -1,10 +1,10 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "north": "tradeperipheral:block/trader",
-    "south": "tradeperipheral:block/trader",
-    "west": "tradeperipheral:block/trader",
-    "east": "tradeperipheral:block/trader",
+    "north": "tradeperipheral:block/trader_north",
+    "south": "tradeperipheral:block/trader_south",
+    "west": "tradeperipheral:block/trader_west",
+    "east": "tradeperipheral:block/trader_east",
     "up": "tradeperipheral:block/trader_front",
     "down": "tradeperipheral:block/trader",
     "particle": "tradeperipheral:block/trader"

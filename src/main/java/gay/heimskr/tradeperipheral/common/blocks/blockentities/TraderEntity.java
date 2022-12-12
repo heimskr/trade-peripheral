@@ -1,5 +1,8 @@
 package gay.heimskr.tradeperipheral.common.blocks.blockentities;
 
+import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.shared.Capabilities;
+import gay.heimskr.tradeperipheral.TradePeripheral;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.peripheral.TraderPeripheral;
 import gay.heimskr.tradeperipheral.common.blocks.base.IInventoryBlock;
 import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
@@ -38,6 +41,26 @@ public class TraderEntity extends PeripheralBlockEntity<TraderPeripheral> implem
 
     @Override
     public int[] getSlotsForFace(@NotNull Direction side) {
+        Direction facing = null;
+
+        var cap = getCapability(Capabilities.CAPABILITY_PERIPHERAL);
+        if (cap.isPresent()) {
+            IPeripheral periph = cap.orElse(null);
+            if (periph != null)
+                facing = ((TraderPeripheral) periph).getPeripheralOwner().getFacing();
+        }
+
+        if (facing != null) {
+            switch (facing) {
+                case NORTH: break;
+                case EAST:  side = side.getCounterClockWise(); break;
+                case SOUTH: side = side.getOpposite(); break;
+                case WEST:  side = side.getClockWise(); break;
+                case DOWN:  side = side.getCounterClockWise(Direction.Axis.X); break;
+                case UP:    side = side.getClockWise(Direction.Axis.X); break;
+            }
+        }
+
         switch (side) {
             case NORTH: return new int[] {0};
             case EAST:  return new int[] {1};

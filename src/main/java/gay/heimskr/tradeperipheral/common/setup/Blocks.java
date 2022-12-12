@@ -1,6 +1,6 @@
 package gay.heimskr.tradeperipheral.common.setup;
 
-import gay.heimskr.tradeperipheral.common.blocks.base.APBlockEntityBlock;
+import gay.heimskr.tradeperipheral.common.blocks.base.TPBlockEntityBlock;
 import gay.heimskr.tradeperipheral.common.items.base.BaseBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
@@ -17,7 +17,7 @@ public class Blocks {
 	}
 
 	public static final RegistryObject<Block> TRADER = register("trader", () ->
-		new APBlockEntityBlock<>(BlockEntityTypes.TRADER, false), () ->
+		new TPBlockEntityBlock<>(BlockEntityTypes.TRADER, false), () ->
 			new BaseBlockItem(Blocks.TRADER.get()));
 
 	private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {

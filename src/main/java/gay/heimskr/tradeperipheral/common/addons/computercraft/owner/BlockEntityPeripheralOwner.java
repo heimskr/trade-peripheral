@@ -1,6 +1,6 @@
 package gay.heimskr.tradeperipheral.common.addons.computercraft.owner;
 
-import gay.heimskr.tradeperipheral.common.blocks.base.APBlockEntityBlock;
+import gay.heimskr.tradeperipheral.common.blocks.base.TPBlockEntityBlock;
 import gay.heimskr.tradeperipheral.common.util.DataStorageUtil;
 import gay.heimskr.tradeperipheral.common.util.fakeplayer.APFakePlayer;
 import gay.heimskr.tradeperipheral.lib.peripherals.IPeripheralTileEntity;
@@ -47,7 +47,7 @@ public class BlockEntityPeripheralOwner<T extends BlockEntity & IPeripheralTileE
     @NotNull
     @Override
     public Direction getFacing() {
-        return tileEntity.getBlockState().getValue(APBlockEntityBlock.FACING);
+        return tileEntity.getBlockState().getValue(TPBlockEntityBlock.FACING);
     }
 
     @Nullable

@@ -78,8 +78,7 @@ public abstract class PeripheralBlockEntity<T extends BasePeripheral<?>> extends
         }
 
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && !remove && direction != null && this instanceof IInventoryBlock) {
-            if (handler == null || !handler.isPresent())
-                handler = LazyOptional.of(() -> new SidedInvWrapper(this, direction));
+            handler = LazyOptional.of(() -> new SidedInvWrapper(this, direction));
             return handler.cast();
         }
         return super.getCapability(cap, direction);
