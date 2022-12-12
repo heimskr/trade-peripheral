@@ -243,6 +243,7 @@ dependencies {
 
 
     implementation fg.deobf("curse.maven:villager-tools-469301:3544598")
+    runtimeOnly fg.deobf("curse.maven:pipez-443900:3819249")
     // Compile-time API required
     // Ae2
     // compileOnly fg.deobf("appeng:appliedenergistics2:${appliedenergistics_version}")

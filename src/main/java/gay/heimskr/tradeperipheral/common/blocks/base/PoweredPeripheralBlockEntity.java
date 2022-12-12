@@ -1,6 +1,6 @@
 package gay.heimskr.tradeperipheral.common.blocks.base;
 
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
+//import gay.heimskr.tradeperipheral.common.configuration.TPConfig;
 import gay.heimskr.tradeperipheral.lib.peripherals.BasePeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +21,8 @@ public abstract class PoweredPeripheralBlockEntity<T extends BasePeripheral<?>> 
 
     public PoweredPeripheralBlockEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
-        if (APConfig.PERIPHERALS_CONFIG.enablePoweredPeripherals.get()) {
+//        if (TPConfig.PERIPHERALS_CONFIG.enablePoweredPeripherals.get()) {
+        if (true) {
             lazyEnergyStorage = LazyOptional.of(() -> new EnergyStorage(this.getMaxEnergyStored()));
         } else {
             lazyEnergyStorage = LazyOptional.empty();

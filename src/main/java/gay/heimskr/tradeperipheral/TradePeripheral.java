@@ -1,6 +1,6 @@
 package gay.heimskr.tradeperipheral;
 
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
+//import gay.heimskr.tradeperipheral.common.configuration.TPConfig;
 import gay.heimskr.tradeperipheral.common.setup.Blocks;
 import gay.heimskr.tradeperipheral.common.setup.Registration;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,8 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 @Mod(TradePeripheral.MOD_ID)
 public class TradePeripheral {
     public static final String MOD_ID = "tradeperipheral";
@@ -38,7 +36,7 @@ public class TradePeripheral {
         LOGGER.info("TradePeripheral says hello!");
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        APConfig.register(ModLoadingContext.get());
+//        TPConfig.register(ModLoadingContext.get());
 
         modBus.addListener(this::commonSetup);
 //        modBus.addListener(this::interModComms);
@@ -48,13 +46,13 @@ public class TradePeripheral {
     }
 
     public static void debug(String message) {
-        if (APConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
-            LOGGER.debug("[DEBUG] " + message);
+//        if (TPConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
+        LOGGER.debug("[DEBUG] " + message);
     }
 
     public static void debug(String message, Level level) {
-        if (APConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
-            LOGGER.log(level, "[DEBUG] " + message);
+//        if (TPConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
+        LOGGER.log(level, "[DEBUG] " + message);
     }
 
     @SubscribeEvent

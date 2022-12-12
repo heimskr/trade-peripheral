@@ -1,8 +1,6 @@
 package gay.heimskr.tradeperipheral.common.setup;
 
 import gay.heimskr.tradeperipheral.common.blocks.base.APBlockEntityBlock;
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
-import gay.heimskr.tradeperipheral.common.items.TPBlockItem;
 import gay.heimskr.tradeperipheral.common.items.base.BaseBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;

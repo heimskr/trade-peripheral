@@ -1,7 +1,7 @@
 package gay.heimskr.tradeperipheral.common.util;
 
 import gay.heimskr.tradeperipheral.TradePeripheral;
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
+//import gay.heimskr.tradeperipheral.common.configuration.TPConfig;
 import net.minecraftforge.fml.ModList;
 
 import java.util.Optional;
@@ -21,7 +21,8 @@ public class Platform {
             Class<?> clazz = Class.forName(TradePeripheral.class.getPackage().getName() + ".common.addons." + path);
             return Optional.of(clazz.newInstance());
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException loadException) {
-            if (APConfig.GENERAL_CONFIG.enableDebugMode.get()) loadException.printStackTrace();
+//            if (TPConfig.GENERAL_CONFIG.enableDebugMode.get())
+                loadException.printStackTrace();
             return Optional.empty();
         } catch (Exception e) {
             e.printStackTrace();

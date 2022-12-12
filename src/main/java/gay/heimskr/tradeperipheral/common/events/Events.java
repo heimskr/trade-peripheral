@@ -1,28 +1,9 @@
 package gay.heimskr.tradeperipheral.common.events;
 
-import com.google.common.collect.EvictingQueue;
-import com.mojang.brigadier.context.CommandContextBuilder;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import gay.heimskr.tradeperipheral.TradePeripheral;
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
-import gay.heimskr.tradeperipheral.common.util.Pair;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.arguments.MessageArgument;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.CommandEvent;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = TradePeripheral.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Events {

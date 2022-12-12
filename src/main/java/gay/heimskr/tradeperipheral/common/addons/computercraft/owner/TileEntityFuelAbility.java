@@ -1,6 +1,5 @@
 package gay.heimskr.tradeperipheral.common.addons.computercraft.owner;
 
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
 import gay.heimskr.tradeperipheral.lib.peripherals.IPeripheralTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.energy.CapabilityEnergy;

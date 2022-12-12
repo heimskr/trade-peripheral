@@ -6,6 +6,7 @@ import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
 import gay.heimskr.tradeperipheral.common.container.TraderContainer;
 import gay.heimskr.tradeperipheral.common.setup.BlockEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,6 +34,18 @@ public class TraderEntity extends PeripheralBlockEntity<TraderPeripheral> implem
     @Override
     public int getInvSize() {
         return 27;
+    }
+
+    @Override
+    public int[] getSlotsForFace(@NotNull Direction side) {
+        switch (side) {
+            case NORTH: return new int[] {0};
+            case EAST:  return new int[] {1};
+            case WEST:  return new int[] {2};
+            case SOUTH: return new int[] {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+            default:
+                return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+        }
     }
 
     @NotNull
