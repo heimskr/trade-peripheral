@@ -2,48 +2,26 @@ package gay.heimskr.tradeperipheral.common.addons.computercraft.peripheral;
 
 import com.lothrazar.villagertools.ModRegistry;
 import dan200.computercraft.api.lua.*;
-import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.pocket.IPocketAccess;
-import dan200.computercraft.api.turtle.ITurtleAccess;
-import dan200.computercraft.api.turtle.TurtleSide;
 import gay.heimskr.tradeperipheral.TradePeripheral;
-import gay.heimskr.tradeperipheral.common.addons.computercraft.operations.SphereOperationContext;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.BlockEntityPeripheralOwner;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.IPeripheralOwner;
-import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.PocketPeripheralOwner;
-import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.TurtlePeripheralOwner;
 import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
 import gay.heimskr.tradeperipheral.common.blocks.blockentities.TraderEntity;
-import gay.heimskr.tradeperipheral.common.configuration.APConfig;
+import gay.heimskr.tradeperipheral.common.exception.ImpossibleException;
+import gay.heimskr.tradeperipheral.common.util.ItemUtil;
 import gay.heimskr.tradeperipheral.common.util.LuaConverter;
 import gay.heimskr.tradeperipheral.lib.peripherals.BasePeripheral;
-import gay.heimskr.tradeperipheral.lib.peripherals.IPeripheralPlugin;
-import gay.heimskr.tradeperipheral.common.addons.computercraft.operations.SphereOperation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.function.Function;
+
 import org.apache.logging.log4j.Logger;
 
 public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
@@ -79,10 +57,14 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 			max = offer.getMaxUses();
 		}
 
+		private Object encodeItemStack(ItemStack stack) {
+			return LuaConverter.stackToObject(stack);
+		}
+
 		public List<Object> toLua() {
-			List<Object> costs = Arrays.asList(Arrays.asList(costA.getDescriptionId(), costA.getCount()));
+			List<Object> costs = Arrays.asList(encodeItemStack(costA));
 			if (!(costB.getItem() instanceof AirItem))
-				costs.add(Arrays.asList(costA.getDescriptionId(), costA.getCount()));
+				costs.add(encodeItemStack(costB));
 			return Arrays.asList(costs, uses, max);
 		}
 	}
@@ -123,7 +105,7 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 			for (Villager villager: getVillagers()) {
 				boolean restocked = false;
 
-				for (var offer: villager.getOffers()) {
+				for (MerchantOffer offer: villager.getOffers()) {
 					if (0 < offer.getUses()) {
 						offer.resetUses();
 						restocked = true;
@@ -140,5 +122,84 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		}
 
 		return MethodResult.of(Arrays.asList(restocks, initialSize - restocks));
+	}
+
+	@LuaFunction(mainThread = true)
+	public final MethodResult doTrade(Optional<Map<?, ?>> costA, Optional<Map<?, ?>> costB, Optional<Map<?, ?>> result, int count) throws LuaException {
+		if ((costA.isEmpty() && result.isEmpty()) || count < 1)
+			return MethodResult.of("invalid_args");
+
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
+		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
+		var fromHandler = ItemUtil.getItemsFromItemHandler(handler);
+		ItemStack stackA = costA.isEmpty()? null : ItemUtil.getItemStack(costA.get(), fromHandler);
+		ItemStack stackB = costB.isEmpty()? null : ItemUtil.getItemStack(costB.get(), fromHandler);
+		ItemStack stackResult = result.isEmpty()? null : ItemUtil.getItemStack(result.get(), fromHandler);
+
+		if (stackA == null) TradePeripheral.debug("stackA: null"); else TradePeripheral.debug("stackA: " + stackA.toString());
+		if (stackB == null) TradePeripheral.debug("stackB: null"); else TradePeripheral.debug("stackB: " + stackB.toString());
+		if (stackResult == null) TradePeripheral.debug("stackResult: null"); else TradePeripheral.debug("stackResult: " + stackResult.toString());
+
+		MerchantOffer foundOffer = null;
+
+		for (Villager villager: getVillagers()) {
+			for (MerchantOffer offer: villager.getOffers()) {
+
+				if ((costA.isEmpty() || ItemUtil.is(offer.getCostA(), stackA)) && (costB.isEmpty() || ItemUtil.is(offer.getCostB(), stackB)) && (result.isEmpty() || ItemUtil.is(offer.getResult(), stackResult))) {
+					if (foundOffer != null)
+						return MethodResult.of("multiple_offers");
+					foundOffer = offer;
+				} else {
+//					TradePeripheral.debug("costA: " + offer.getCostA());
+//					TradePeripheral.debug("costB: " + offer.getCostB());
+//					TradePeripheral.debug("result: " + offer.getResult());
+//					TradePeripheral.debug((costA.isEmpty() || ItemUtil.is(offer.getCostA(), stackA)) + " && " + (costB.isEmpty() || ItemUtil.is(offer.getCostB(), stackB)) + " && " + (result.isEmpty() || ItemUtil.is(offer.getResult(), stackResult)));
+				}
+			}
+		}
+
+		if (foundOffer == null)
+			return MethodResult.of("no_offer");
+
+		for (int i = 0; i < count; ++i) {
+			if (foundOffer.getMaxUses() <= foundOffer.getUses())
+				return MethodResult.of("exhausted");
+
+			List<ItemStack> itemList = new ArrayList<>();
+
+			for (ItemStack toCopy : ItemUtil.getItemsFromItemHandler(handler))
+				itemList.add(toCopy.copy());
+
+			if (!ItemUtil.canExtract(itemList, foundOffer.getCostA()) || !ItemUtil.canExtract(itemList, foundOffer.getCostB()))
+				return MethodResult.of("cannot_afford");
+
+			try {
+				ItemUtil.extract(itemList, foundOffer.getCostA());
+				ItemUtil.extract(itemList, foundOffer.getCostB());
+			} catch (ImpossibleException oops) {
+				TradePeripheral.debug(oops.getMessage());
+				return MethodResult.of("impossible_copy_extraction");
+			}
+
+			if (!ItemUtil.canInsert(itemList, foundOffer.getResult()))
+				return MethodResult.of("insufficient_space");
+
+			try {
+				ItemUtil.extract(handler, foundOffer.getCostA());
+				ItemUtil.extract(handler, foundOffer.getCostB());
+			} catch (ImpossibleException oops) {
+				TradePeripheral.debug(oops.getMessage());
+				return MethodResult.of("impossible_extraction");
+			}
+
+			try {
+				ItemUtil.insert(handler, foundOffer.getResult());
+			} catch (ImpossibleException oops) {
+				TradePeripheral.debug(oops.getMessage());
+				return MethodResult.of("impossible_insertion");
+			}
+		}
+
+		return MethodResult.of(true);
 	}
 }

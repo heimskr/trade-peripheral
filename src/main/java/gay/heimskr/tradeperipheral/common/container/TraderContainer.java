@@ -20,11 +20,13 @@ public class TraderContainer extends BaseContainer {
 
     public TraderContainer(int id, Inventory inventory, BlockPos pos, Level level) {
         super(ContainerTypes.TRADER_CONTAINER.get(), id, inventory, pos, level);
-        layoutPlayerInventorySlots(7, 84);
+
+        if (inventory != null)
+            layoutPlayerInventorySlots(7, 84);
+
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                addSlot(new SlotInputHandler(handler, 0, 79 - 9, 29, new SlotCondition().setNeededItem(net.minecraft.world.item.Items.EMERALD)));
-                addSlot(new SlotInputHandler(handler, 1, 79 + 9, 29, new SlotCondition().setNeededItem(ModRegistry.RESTOCK.get())));
+                addSlotBox(handler, 0, 7, 26, 9, 18, 3, 18);
             });
         }
     }
@@ -47,15 +49,17 @@ public class TraderContainer extends BaseContainer {
                     return ItemStack.EMPTY;
                 }
             } else if (index <= 35) {
-                if (itemstack1.getItem().equals(net.minecraft.world.item.Items.EMERALD)) {
-                    if (!this.moveItemStackTo(itemstack1, 36, 37, true)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (itemstack1.getItem().equals(ModRegistry.RESTOCK.get())) {
-                    if (!this.moveItemStackTo(itemstack1, 37, 38, true)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
+                if (!this.moveItemStackTo(itemstack1, 36, 36 + 27, false))
+                    return ItemStack.EMPTY;
+//                if (itemstack1.getItem().equals(net.minecraft.world.item.Items.EMERALD)) {
+//                    if (!this.moveItemStackTo(itemstack1, 36, 37, true)) {
+//                        return ItemStack.EMPTY;
+//                    }
+//                } else if (itemstack1.getItem().equals(ModRegistry.RESTOCK.get())) {
+//                    if (!this.moveItemStackTo(itemstack1, 37, 38, true)) {
+//                        return ItemStack.EMPTY;
+//                    }
+//                }
             } else if (!this.moveItemStackTo(itemstack1, 0, 36, false)) {
                 return ItemStack.EMPTY;
             }

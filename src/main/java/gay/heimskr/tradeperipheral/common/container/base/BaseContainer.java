@@ -57,7 +57,7 @@ public abstract class BaseContainer extends AbstractContainerMenu {
     }
 
 
-    private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
+    protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
             addSlot(new SlotItemHandler(handler, index, x, y));
             x += dx;
@@ -66,7 +66,7 @@ public abstract class BaseContainer extends AbstractContainerMenu {
         return index;
     }
 
-    private int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    protected int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
         for (int i = 0; i < verAmount; i++) {
             index = addSlotRange(handler, index, x, y, horAmount, dx);
             y += dy;

@@ -34,7 +34,7 @@ public class TraderEntity extends PeripheralBlockEntity<TraderPeripheral> implem
 
     @Override
     public int getInvSize() {
-        return 2;
+        return 27;
     }
 
     @NotNull

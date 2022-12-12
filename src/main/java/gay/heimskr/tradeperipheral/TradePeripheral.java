@@ -48,11 +48,13 @@ public class TradePeripheral {
     }
 
     public static void debug(String message) {
-        if (APConfig.GENERAL_CONFIG.enableDebugMode.get()) LOGGER.debug("[DEBUG] " + message);
+        if (APConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
+            LOGGER.debug("[DEBUG] " + message);
     }
 
     public static void debug(String message, Level level) {
-        if (APConfig.GENERAL_CONFIG.enableDebugMode.get()) LOGGER.log(level, "[DEBUG] " + message);
+        if (APConfig.GENERAL_CONFIG.enableDebugMode.get() || true)
+            LOGGER.log(level, "[DEBUG] " + message);
     }
 
     @SubscribeEvent
