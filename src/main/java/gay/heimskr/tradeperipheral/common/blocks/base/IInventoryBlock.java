@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
  * @deprecated Will be merged with the APBlock in 0.9
  */
 
-@Deprecated(since = "0.7.16", forRemoval = true)
 public interface IInventoryBlock<T extends BaseContainer> {
 
     Component getDisplayName();
