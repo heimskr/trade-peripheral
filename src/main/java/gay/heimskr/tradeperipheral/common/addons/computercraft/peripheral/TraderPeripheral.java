@@ -13,8 +13,10 @@ import gay.heimskr.tradeperipheral.common.util.LuaConverter;
 import gay.heimskr.tradeperipheral.lib.peripherals.BasePeripheral;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -22,6 +24,7 @@ import net.minecraftforge.items.IItemHandler;
 
 import java.util.*;
 
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Logger;
 
 public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
@@ -127,6 +130,33 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		}
 
 		return MethodResult.of(restocks);
+	}
+
+	@LuaFunction(mainThread = true)
+	public final MethodResult randomize() {
+		var villagers = getVillagers();
+		if (villagers.isEmpty())
+			return MethodResult.of("no_villagers");
+		if (1 < villagers.size())
+			return MethodResult.of("multiple_villagers");
+
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
+		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
+
+		try {
+			if (!ItemUtil.extract(handler, new ItemStack(Items.ENDER_EYE, 1)))
+				return MethodResult.of("exhausted");
+		} catch (ImpossibleException oops) {
+			return MethodResult.of("impossible_extraction");
+		}
+
+		Villager villager = villagers.get(0);
+		var professions = ForgeRegistries.PROFESSIONS.getValues().stream().toList();
+		VillagerProfession chosen = professions.get(TradePeripheral.RANDOM.nextInt(professions.size()));
+
+		var vdata = villager.getVillagerData().setProfession(chosen);
+		villager.setVillagerData(vdata);
+		return MethodResult.of("success");
 	}
 
 	@LuaFunction(mainThread = true)

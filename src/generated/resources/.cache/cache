@@ -1,0 +1,5 @@
+ee9bb7639035289c0538ab531822209e68747913 data/minecraft/tags/blocks/mineable/pickaxe.json
+ee9bb7639035289c0538ab531822209e68747913 data/minecraft/tags/blocks/needs_iron_tool.json
+c761f9820f9ba206f0c205077722ad25ec00af8c data/tradeperipheral/advancements/recipes/tradeperipheraltab/trader.json
+0784c7b82907e86e7a9d96dfe9965b0ca577bd6e data/tradeperipheral/loot_tables/blocks/trader.json
+d6b040cb48df7b7bb82731ac21588e9a54f88b45 data/tradeperipheral/recipes/trader.json
