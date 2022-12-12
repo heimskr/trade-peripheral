@@ -136,24 +136,14 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		ItemStack stackB = costB.isEmpty()? null : ItemUtil.getItemStack(costB.get(), fromHandler);
 		ItemStack stackResult = result.isEmpty()? null : ItemUtil.getItemStack(result.get(), fromHandler);
 
-		if (stackA == null) TradePeripheral.debug("stackA: null"); else TradePeripheral.debug("stackA: " + stackA.toString());
-		if (stackB == null) TradePeripheral.debug("stackB: null"); else TradePeripheral.debug("stackB: " + stackB.toString());
-		if (stackResult == null) TradePeripheral.debug("stackResult: null"); else TradePeripheral.debug("stackResult: " + stackResult.toString());
-
 		MerchantOffer foundOffer = null;
 
 		for (Villager villager: getVillagers()) {
 			for (MerchantOffer offer: villager.getOffers()) {
-
 				if ((costA.isEmpty() || ItemUtil.is(offer.getCostA(), stackA)) && (costB.isEmpty() || ItemUtil.is(offer.getCostB(), stackB)) && (result.isEmpty() || ItemUtil.is(offer.getResult(), stackResult))) {
 					if (foundOffer != null)
 						return MethodResult.of("multiple_offers");
 					foundOffer = offer;
-				} else {
-//					TradePeripheral.debug("costA: " + offer.getCostA());
-//					TradePeripheral.debug("costB: " + offer.getCostB());
-//					TradePeripheral.debug("result: " + offer.getResult());
-//					TradePeripheral.debug((costA.isEmpty() || ItemUtil.is(offer.getCostA(), stackA)) + " && " + (costB.isEmpty() || ItemUtil.is(offer.getCostB(), stackB)) + " && " + (result.isEmpty() || ItemUtil.is(offer.getResult(), stackResult)));
 				}
 			}
 		}
