@@ -26,7 +26,7 @@ public class TraderContainer extends BaseContainer {
 
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                addSlotBox(handler, 0, 7, 26, 9, 18, 3, 18);
+                addSlotBox(handler, 0, 7, 17, 9, 18, 3, 18);
             });
         }
     }

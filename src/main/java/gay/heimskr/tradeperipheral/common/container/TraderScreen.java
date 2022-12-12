@@ -19,7 +19,7 @@ public class TraderScreen extends BaseScreen<TraderContainer> {
 
     @Override
     public int getSizeY() {
-        return 149;
+        return 166;
     }
 
     @Override
