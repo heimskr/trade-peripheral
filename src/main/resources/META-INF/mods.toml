@@ -28,11 +28,17 @@ side = "BOTH"
 modId = "computercraft"
 mandatory = true
 versionRange = "[1.100.4,)"
-ordering = "NONE"
+ordering = "AFTER"
 side = "BOTH"
 [[dependencies.tradeperipheral]]
 modId = "villagertools"
 mandatory = true
 versionRange = "[1.0.2,)"
-ordering = "NONE"
+ordering = "AFTER"
+side = "BOTH"
+[[dependencies.tradeperipheral]]
+modId = "thermal_expansion"
+mandatory = true
+versionRange = "[9.0,)"
+ordering = "AFTER"
 side = "BOTH"

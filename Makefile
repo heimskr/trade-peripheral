@@ -1,3 +1,5 @@
+.PHONY: build data jar test clean gen full
+
 all: build
 
 full:
@@ -20,3 +22,6 @@ test:
 
 clean:
 	./gradlew clean
+
+gen:
+	./gradlew genIntellijRuns
