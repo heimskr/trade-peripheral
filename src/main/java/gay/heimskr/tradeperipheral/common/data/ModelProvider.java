@@ -31,9 +31,11 @@ public class ModelProvider extends ItemModelProviderCoFH {
 
 		registerBlockItemModels();
 
-        var reg = Registration.ITEMS;
+//        var reg = ITEMS;
 
-		generated(reg.getSup("soul_sauce_bucket"));
+//        generated(reg.getSup("slot_seal"));
+//        generated(reg.getSup("press_coin_die"));
+//        generated(reg.getSup("chiller_ball_cast"));
 	}
 
 	private void registerBlockItemModels() {

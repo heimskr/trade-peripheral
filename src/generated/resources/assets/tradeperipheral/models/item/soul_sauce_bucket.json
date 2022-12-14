@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "tradeperipheral:item/soul_sauce_bucket"
-  }
-}
