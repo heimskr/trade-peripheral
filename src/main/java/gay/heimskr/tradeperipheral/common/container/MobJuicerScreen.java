@@ -1,14 +1,18 @@
 package gay.heimskr.tradeperipheral.common.container;
 
 import cofh.core.client.gui.ContainerScreenCoFH;
+import cofh.core.client.gui.element.panel.ConfigPanel;
 import cofh.core.client.gui.element.panel.PanelBase;
+import cofh.core.util.helpers.GuiHelper;
 import cofh.lib.util.helpers.StringHelper;
 import cofh.thermal.core.client.gui.ThermalGuiHelper;
+import cofh.thermal.expansion.inventory.container.machine.MachinePyrolyzerContainer;
 import cofh.thermal.lib.client.gui.MachineScreenReconfigurable;
 import gay.heimskr.tradeperipheral.TradePeripheral;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import cofh.core.client.gui.ContainerScreenCoFH;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,7 +35,6 @@ public class MobJuicerScreen extends MachineScreenReconfigurable<MobJuicerContai
 	public void init() {
 		super.init();
 
-		// Why is this necessary.
 		try {
 			Class cls = ContainerScreenCoFH.class;
 			Field panels_field = cls.getDeclaredField("panels");
