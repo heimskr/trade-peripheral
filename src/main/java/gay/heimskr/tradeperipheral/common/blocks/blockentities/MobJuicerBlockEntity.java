@@ -1,6 +1,7 @@
 package gay.heimskr.tradeperipheral.common.blocks.blockentities;
 
 import cofh.lib.api.StorageGroup;
+import cofh.lib.api.control.IReconfigurable;
 import cofh.lib.fluid.FluidStorageCoFH;
 import cofh.lib.util.Constants;
 import cofh.thermal.core.config.ThermalCoreConfig;
@@ -9,6 +10,7 @@ import cofh.thermal.lib.tileentity.MachineTileBase;
 import gay.heimskr.tradeperipheral.common.container.MobJuicerContainer;
 import gay.heimskr.tradeperipheral.common.setup.BlockEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,6 +28,7 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 
 		tankInv.addTank(outputTank, StorageGroup.OUTPUT);
 		addAugmentSlots(ThermalCoreConfig.machineAugments);
+
 		initHandlers();
 	}
 
@@ -33,5 +36,15 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 	@Override
 	public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
 		return new MobJuicerContainer(i, level, worldPosition, inventory, player);
+	}
+
+	@Override
+	public boolean setSideConfig(Direction side, IReconfigurable.SideConfig config) {
+		return side == Direction.UP? false : super.setSideConfig(side, config);
+	}
+
+	@Override
+	public IReconfigurable.SideConfig getSideConfig(Direction side) {
+		return side == Direction.UP? IReconfigurable.SideConfig.SIDE_NONE : super.getSideConfig(side);
 	}
 }

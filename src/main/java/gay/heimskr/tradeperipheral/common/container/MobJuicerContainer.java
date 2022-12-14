@@ -21,16 +21,16 @@ public class MobJuicerContainer extends TileContainer {
 		this.blockEntity = (MobJuicerBlockEntity) level.getBlockEntity(pos);
 		InvWrapperCoFH tileInv = new InvWrapperCoFH(this.blockEntity.getItemInv());
 
-		addSlot(new SlotCoFH(tileInv, 0, 44, 26));
+//		addSlot(new SlotCoFH(tileInv, 0, 44, 26));
 
-		addSlot(new SlotRemoveOnly(tileInv, 1, 107, 26));
-		addSlot(new SlotRemoveOnly(tileInv, 2, 125, 26));
-		addSlot(new SlotRemoveOnly(tileInv, 3, 107, 44));
-		addSlot(new SlotRemoveOnly(tileInv, 4, 125, 44));
+//		addSlot(new SlotRemoveOnly(tileInv, 1, 107, 26));
+//		addSlot(new SlotRemoveOnly(tileInv, 2, 125, 26));
+//		addSlot(new SlotRemoveOnly(tileInv, 3, 107, 44));
+//		addSlot(new SlotRemoveOnly(tileInv, 4, 125, 44));
 
-		addSlot(new SlotCoFH(tileInv, 5, 8, 53));
+//		addSlot(new SlotCoFH(tileInv, 5, 8, 53));
 
-//		bindAugmentSlots(tileInv, 6, this.blockEntity.augSize());
+		bindAugmentSlots(tileInv, 0, this.blockEntity.augSize());
 		bindPlayerInventory(inventory);
 	}
 }
