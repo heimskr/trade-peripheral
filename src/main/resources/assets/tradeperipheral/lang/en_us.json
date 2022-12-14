@@ -1,5 +1,6 @@
 {
   "block.tradeperipheral.trader": "Trader",
   "itemGroup.tradeperipheraltab": "Trade Peripheral",
-  "block.tradeperipheral.mob_juicer": "Mob Juicer"
+  "block.tradeperipheral.mob_juicer": "Mob Juicer",
+  "info.tradeperipheral.mob_juicer.0": "Turns mobs into Soul Sauce. The amount of Soul Sauce generated is proportional to the mob's maximum number of hearts."
 }
