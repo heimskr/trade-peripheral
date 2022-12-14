@@ -5,22 +5,30 @@ import cofh.lib.api.control.IReconfigurable;
 import cofh.lib.fluid.FluidStorageCoFH;
 import cofh.lib.util.Constants;
 import cofh.thermal.core.config.ThermalCoreConfig;
+import cofh.thermal.expansion.inventory.container.machine.MachinePyrolyzerContainer;
 import cofh.thermal.lib.tileentity.MachineTileBase;
 import gay.heimskr.tradeperipheral.common.container.MobJuicerContainer;
 import gay.heimskr.tradeperipheral.common.setup.BlockEntityTypes;
 import gay.heimskr.tradeperipheral.common.setup.FluidTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class MobJuicerBlockEntity extends MachineTileBase {
@@ -59,24 +67,20 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 
 	@Override
 	public void tickServer() {
-		if (ENERGY_PER_ACTION <= energyStorage.getEnergyStored() && ++ticks % (5 * 20) == 0 && redstoneControl.getState())
-			checkEntities();
-		super.tickServer();
-		transferOutput();
+		if (ENERGY_PER_ACTION <= energyStorage.getEnergyStored() && ++ticks % (5 * 20) == 0)
+			activate();
 	}
 
-	public void kill(LivingEntity target) {
-		if (ENERGY_PER_ACTION <= energyStorage.getEnergyStored()) {
-			outputTank.modify((int) (target.getMaxHealth() * 100));
-			target.hurt(DamageSource.STARVE, Float.MAX_VALUE);
-			energyStorage.modify(-ENERGY_PER_ACTION);
-			markDirtyFast();
-		}
-	}
-
-	public void checkEntities() {
+	public void activate() {
 		var targets = getLevel().getEntities((Entity) null, new AABB(getBlockPos()).inflate(0., 2., 0.), entity -> (entity instanceof LivingEntity) && !(entity instanceof Player));
-		if (!targets.isEmpty())
-			kill((LivingEntity) targets.get(0));
+
+		if (targets.isEmpty() || energyStorage.getEnergyStored() < ENERGY_PER_ACTION)
+			return;
+
+		var target = (LivingEntity) targets.get(0);
+		outputTank.modify((int) (target.getMaxHealth() * 100));
+		target.hurt(DamageSource.STARVE, Float.MAX_VALUE);
+		energyStorage.modify(-ENERGY_PER_ACTION);
+		markDirtyFast();
 	}
 }
