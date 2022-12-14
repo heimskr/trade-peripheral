@@ -1,0 +1,12 @@
+{
+  "type": "tradeperipheral:dna_extractor",
+  "ingredient": {
+    "tag": "forge:fruits"
+  },
+  "result": [
+    {
+      "item": "tradeperipheral:dna",
+      "chance": 1.0
+    }
+  ]
+}
