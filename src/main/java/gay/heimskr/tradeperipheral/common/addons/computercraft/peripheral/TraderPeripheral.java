@@ -14,6 +14,7 @@ import gay.heimskr.tradeperipheral.lib.peripherals.BasePeripheral;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,12 +26,10 @@ import net.minecraftforge.items.IItemHandler;
 import java.util.*;
 
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.Logger;
 
 public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 
 	public static final String TYPE = "trader";
-	private static final Logger LOGGER = TradePeripheral.LOGGER;
 
 	protected TraderPeripheral(IPeripheralOwner owner) {
 		super(TYPE, owner);
@@ -132,6 +131,8 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		return MethodResult.of(restocks);
 	}
 
+	private final VillagerType[] villagerTypes = new VillagerType[] {VillagerType.DESERT, VillagerType.JUNGLE, VillagerType.PLAINS, VillagerType.SAVANNA, VillagerType.SNOW, VillagerType.SWAMP, VillagerType.TAIGA};
+
 	@LuaFunction(mainThread = true)
 	public final MethodResult randomize() {
 		var villagers = getVillagers();
@@ -150,11 +151,18 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 			return MethodResult.of("impossible_extraction");
 		}
 
+
 		Villager villager = villagers.get(0);
 		var professions = ForgeRegistries.PROFESSIONS.getValues().stream().toList();
 		VillagerProfession chosen = professions.get(TradePeripheral.RANDOM.nextInt(professions.size()));
 
-		var vdata = villager.getVillagerData().setProfession(chosen);
+		var vdata = villager.getVillagerData().setProfession(chosen).setType(villagerTypes[TradePeripheral.RANDOM.nextInt(villagerTypes.length)]);
+
+		if (chosen == VillagerProfession.NITWIT || chosen == VillagerProfession.NONE)
+			vdata = vdata.setLevel(1);
+		else
+			vdata = vdata.setLevel(2);
+
 		villager.setVillagerData(vdata);
 		return MethodResult.of("success");
 	}

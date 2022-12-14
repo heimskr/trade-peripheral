@@ -1,3 +1,5 @@
+.PHONY: all full build data jar test clean
+
 all: build
 
 full:
