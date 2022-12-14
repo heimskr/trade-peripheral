@@ -9,10 +9,12 @@ import cofh.thermal.expansion.inventory.container.machine.MachinePyrolyzerContai
 import cofh.thermal.lib.tileentity.MachineTileBase;
 import gay.heimskr.tradeperipheral.common.container.MobJuicerContainer;
 import gay.heimskr.tradeperipheral.common.setup.BlockEntityTypes;
+import gay.heimskr.tradeperipheral.common.setup.FluidTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
@@ -22,6 +24,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -33,7 +36,9 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 	// Lol.
 	protected int ticks = 0;
 
-	protected FluidStorageCoFH outputTank = new FluidStorageCoFH(Constants.TANK_LARGE);
+	public static final int ENERGY_PER_ACTION = 5000;
+
+	protected FluidStorageCoFH outputTank = new FluidStorageCoFH(Constants.TANK_LARGE).setEmptyFluid(() -> new FluidStack(FluidTypes.SOUL_SAUCE_FLUID.get(), 0));
 
 	public MobJuicerBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockEntityTypes.MOB_JUICER.get(), pos, state);
@@ -62,27 +67,20 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 
 	@Override
 	public void tickServer() {
-		if (++ticks % (5 * 20) == 0)
+		if (ENERGY_PER_ACTION <= energyStorage.getEnergyStored() && ++ticks % (5 * 20) == 0)
 			activate();
-	}
-
-	private void tellAll(String message) {
-		getLevel().players().forEach(player -> player.sendMessage(new TextComponent(message), UUID.randomUUID()));
 	}
 
 	public void activate() {
 		var targets = getLevel().getEntities((Entity) null, new AABB(getBlockPos()).inflate(0., 2., 0.), entity -> (entity instanceof LivingEntity) && !(entity instanceof Player));
 
-		if (targets.isEmpty()) {
-			tellAll("No entities.");
+		if (targets.isEmpty() || energyStorage.getEnergyStored() < ENERGY_PER_ACTION)
 			return;
-		}
 
-//		var target = (LivingEntity) targets.get(0);
-//		tellAll("Target: " + target.toString());
-//		tellAll("Max health: " + target.getMaxHealth());
-
-
-
+		var target = (LivingEntity) targets.get(0);
+		outputTank.modify((int) (target.getMaxHealth() * 100));
+		target.hurt(DamageSource.STARVE, Float.MAX_VALUE);
+		energyStorage.modify(-ENERGY_PER_ACTION);
+		markDirtyFast();
 	}
 }

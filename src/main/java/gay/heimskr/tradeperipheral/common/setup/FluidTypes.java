@@ -24,5 +24,4 @@ public class FluidTypes {
     }
 
     public static Supplier<ForgeFlowingFluid> SOUL_SAUCE_FLUID;
-
 }
