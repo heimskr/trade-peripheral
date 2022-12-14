@@ -23,7 +23,10 @@ public class Registration {
     public static final DeferredRegisterCoFH<Fluid> FLUIDS = DeferredRegisterCoFH.create(ForgeRegistries.FLUIDS, TradePeripheral.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, TradePeripheral.MOD_ID);
     public static final DeferredRegister<MenuType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, TradePeripheral.MOD_ID);
-
+    public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, TradePeripheral.MOD_ID);
+    public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, TradePeripheral.MOD_ID);
+    public static final DeferredRegister<TurtleUpgradeSerialiser<?>> TURTLE_SERIALIZER = DeferredRegister.create(TurtleUpgradeSerialiser.REGISTRY_ID, TradePeripheral.MOD_ID);
+    public static final DeferredRegister<PocketUpgradeSerialiser<?>> POCKET_SERIALIZER = DeferredRegister.create(PocketUpgradeSerialiser.REGISTRY_ID, TradePeripheral.MOD_ID);
 
     public static void register() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -32,13 +35,16 @@ public class Registration {
         FLUIDS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
         CONTAINER_TYPES.register(modEventBus);
+        POI_TYPES.register(modEventBus);
+        VILLAGER_PROFESSIONS.register(modEventBus);
+        TURTLE_SERIALIZER.register(modEventBus);
+        POCKET_SERIALIZER.register(modEventBus);
 
         Blocks.register();
-        Items.register();
-        FluidTypes.register();
-
         BlockEntityTypes.register();
+        Items.register();
         ContainerTypes.register();
         CCRegistration.register();
+        FluidTypes.register();
     }
 }
