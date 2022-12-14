@@ -22,5 +22,6 @@ public class DataGenerators {
         generator.addProvider(new BlockTagsProvider(generator, existingFileHelper, Registration.BLOCKS));
         generator.addProvider(new RecipesProvider(generator));
         generator.addProvider(new BlockLootTablesProvider(generator));
+        generator.addProvider(new ModelProvider(generator, existingFileHelper));
     }
 }

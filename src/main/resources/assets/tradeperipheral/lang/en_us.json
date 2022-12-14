@@ -1,4 +1,5 @@
 {
   "block.tradeperipheral.trader": "Trader",
-  "itemGroup.tradeperipheraltab": "Trade Peripheral"
+  "itemGroup.tradeperipheraltab": "Trade Peripheral",
+  "block.tradeperipheral.mob_juicer": "Mob Juicer"
 }

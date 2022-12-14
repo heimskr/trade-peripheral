@@ -6,7 +6,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -30,10 +32,14 @@ public class BlockTagsProvider extends TagsProvider<Block> {
     @Override
     protected void addTags() {
         blockRegistry.getEntries().stream().map(RegistryObject::get).forEach(block -> {
-            if (!(block instanceof IHarvesterBlock harvesterBlock))
-                throw new IllegalArgumentException("For any block you should define harvester logic!");
-            tag(harvesterBlock.getHarvestTag()).add(block);
-            tag(harvesterBlock.getToolTag()).add(block);
+            if (!(block instanceof IHarvesterBlock harvesterBlock)) {
+//                throw new IllegalArgumentException("For any block you should define harvester logic!");
+                tag(Tags.Blocks.NEEDS_WOOD_TOOL).add(block);
+                tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
+            } else {
+                tag(harvesterBlock.getHarvestTag()).add(block);
+                tag(harvesterBlock.getToolTag()).add(block);
+            }
         });
     }
 

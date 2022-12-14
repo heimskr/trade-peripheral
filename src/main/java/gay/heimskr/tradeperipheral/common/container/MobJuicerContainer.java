@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 
 public class MobJuicerContainer extends TileContainer {
-	private final MobJuicerBlockEntity blockEntity;
+	public final MobJuicerBlockEntity blockEntity;
 
 	public MobJuicerContainer(int windowId, Level level, BlockPos pos, Inventory inventory, Player player) {
 		super(ContainerTypes.MOB_JUICER_CONTAINER.get(), windowId, level, pos, inventory, player);
