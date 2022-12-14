@@ -1,7 +1,6 @@
 package gay.heimskr.tradeperipheral;
 
 import gay.heimskr.tradeperipheral.common.setup.Blocks;
-import gay.heimskr.tradeperipheral.common.setup.RecipeSerializers;
 import gay.heimskr.tradeperipheral.common.setup.Registration;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -38,11 +37,6 @@ public class TradePeripheral {
 			return new ItemStack(Blocks.TRADER.get());
 		}
 	};
-
-	static {
-		RecipeTypes.register();
-		RecipeSerializers.register();
-	}
 
 	public TradePeripheral() {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
