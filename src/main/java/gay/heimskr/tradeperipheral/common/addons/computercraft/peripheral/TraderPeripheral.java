@@ -6,7 +6,7 @@ import gay.heimskr.tradeperipheral.TradePeripheral;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.BlockEntityPeripheralOwner;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.owner.IPeripheralOwner;
 import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
-import gay.heimskr.tradeperipheral.common.blocks.blockentities.TraderBlockEntity;
+import gay.heimskr.tradeperipheral.common.blocks.blockentities.TraderEntity;
 import gay.heimskr.tradeperipheral.common.exception.ImpossibleException;
 import gay.heimskr.tradeperipheral.common.util.ItemUtil;
 import gay.heimskr.tradeperipheral.common.util.LuaConverter;
@@ -98,7 +98,7 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 
 	@LuaFunction(mainThread = true)
 	public final MethodResult restock() {
-		TraderBlockEntity entity = (TraderBlockEntity) getLevel().getBlockEntity(getPos());
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
 		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
 
 		int restocks = 0;
@@ -140,7 +140,7 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		if (1 < villagers.size())
 			return MethodResult.of("multiple_villagers");
 
-		TraderBlockEntity entity = (TraderBlockEntity) getLevel().getBlockEntity(getPos());
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
 		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
 
 		try {
@@ -164,7 +164,7 @@ public class TraderPeripheral extends BasePeripheral<IPeripheralOwner> {
 		if ((costA.isEmpty() && result.isEmpty()) || count < 1)
 			return MethodResult.of("invalid_args");
 
-		TraderBlockEntity entity = (TraderBlockEntity) getLevel().getBlockEntity(getPos());
+		TraderEntity entity = (TraderEntity) getLevel().getBlockEntity(getPos());
 		IItemHandler handler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve().orElse(null);
 		var fromHandler = ItemUtil.getItemsFromItemHandler(handler);
 		ItemStack stackA = costA.isEmpty()? null : ItemUtil.getItemStack(costA.get(), fromHandler);

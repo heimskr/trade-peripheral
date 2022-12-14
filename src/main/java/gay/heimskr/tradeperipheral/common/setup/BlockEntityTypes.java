@@ -7,12 +7,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BlockEntityTypes {
 
-	static void register() {}
+    static void register() {
+    }
 
-	public static final RegistryObject<BlockEntityType<TraderBlockEntity>> TRADER = Registration.TILE_ENTITIES.register("trader", () ->
-		new BlockEntityType<>(TraderBlockEntity::new, Sets.newHashSet(Blocks.TRADER.get()), null));
-
-	public static final RegistryObject<BlockEntityType<MobJuicerBlockEntity>> MOB_JUICER = Registration.TILE_ENTITIES.register("mob_juicer", () ->
-		new BlockEntityType<>(MobJuicerBlockEntity::new, Sets.newHashSet(Blocks.MOB_JUICER.get()), null));
+    public static final RegistryObject<BlockEntityType<TraderEntity>> TRADER = Registration.TILE_ENTITIES.register("trader", () -> new BlockEntityType<>(TraderEntity::new, Sets.newHashSet(Blocks.TRADER.get()), null));
 
 }

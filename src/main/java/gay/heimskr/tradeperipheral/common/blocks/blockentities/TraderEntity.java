@@ -2,6 +2,7 @@ package gay.heimskr.tradeperipheral.common.blocks.blockentities;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.shared.Capabilities;
+import gay.heimskr.tradeperipheral.TradePeripheral;
 import gay.heimskr.tradeperipheral.common.addons.computercraft.peripheral.TraderPeripheral;
 import gay.heimskr.tradeperipheral.common.blocks.base.IInventoryBlock;
 import gay.heimskr.tradeperipheral.common.blocks.base.PeripheralBlockEntity;
@@ -16,9 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class TraderBlockEntity extends PeripheralBlockEntity<TraderPeripheral> implements IInventoryBlock<TraderContainer> {
+public class TraderEntity extends PeripheralBlockEntity<TraderPeripheral> implements IInventoryBlock<TraderContainer> {
 
-    public TraderBlockEntity(BlockPos pos, BlockState state) {
+    public TraderEntity(BlockPos pos, BlockState state) {
         super(BlockEntityTypes.TRADER.get(), pos, state);
     }
 

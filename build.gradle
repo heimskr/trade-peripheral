@@ -244,10 +244,6 @@ dependencies {
 
     implementation fg.deobf("curse.maven:villager-tools-469301:3544598")
     runtimeOnly fg.deobf("curse.maven:pipez-443900:3819249")
-    implementation fg.deobf("curse.maven:thermal-expansion-69163:4022681")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:4022682")
-    implementation fg.deobf("curse.maven:cofh-core-69162:4022665")
-
     // Compile-time API required
     // Ae2
     // compileOnly fg.deobf("appeng:appliedenergistics2:${appliedenergistics_version}")
