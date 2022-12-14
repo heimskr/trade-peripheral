@@ -62,7 +62,7 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 
 	@Override
 	public void tickServer() {
-		if (++ticks % 200 == 0)
+		if (++ticks % (5 * 20) == 0)
 			activate();
 	}
 
@@ -78,8 +78,11 @@ public class MobJuicerBlockEntity extends MachineTileBase {
 			return;
 		}
 
-		var target = (LivingEntity) targets.get(0);
-		tellAll("Target: " + target.toString());
-		tellAll("Max health: " + target.getMaxHealth());
+//		var target = (LivingEntity) targets.get(0);
+//		tellAll("Target: " + target.toString());
+//		tellAll("Max health: " + target.getMaxHealth());
+
+
+
 	}
 }
