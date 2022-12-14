@@ -1,7 +1,6 @@
 {
   "parent": "thermal:block/machine_base",
   "textures": {
-    "north": "tradeperipheral:block/mob_juicer_front",
-    "up": "tradeperipheral:block/mob_juicer_top"
+    "north": "thermal:block/machines/machine_pyrolyzer"
   }
 }
