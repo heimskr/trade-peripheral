@@ -1,34 +1,27 @@
 {
   "variants": {
-    "facing=north,active=false": {
+    "facing=north": {
       "model": "tradeperipheral:block/mob_juicer"
     },
-    "facing=east,active=false": {
-      "model": "tradeperipheral:block/mob_juicer",
-      "y": 90
-    },
-    "facing=south,active=false": {
+    "facing=south": {
       "model": "tradeperipheral:block/mob_juicer",
       "y": 180
     },
-    "facing=west,active=false": {
-      "model": "tradeperipheral:block/mob_juicer",
-      "y": 270
-    },
-    "facing=north,active=true": {
-      "model": "tradeperipheral:block/mob_juicer"
-    },
-    "facing=east,active=true": {
+    "facing=east": {
       "model": "tradeperipheral:block/mob_juicer",
       "y": 90
     },
-    "facing=south,active=true": {
-      "model": "tradeperipheral:block/mob_juicer",
-      "y": 180
-    },
-    "facing=west,active=true": {
+    "facing=west": {
       "model": "tradeperipheral:block/mob_juicer",
       "y": 270
+    },
+    "facing=down": {
+      "model": "tradeperipheral:block/mob_juicer",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "tradeperipheral:block/mob_juicer",
+      "x": 270
     }
   }
 }

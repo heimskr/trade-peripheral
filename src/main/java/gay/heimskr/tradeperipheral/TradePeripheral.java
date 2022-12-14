@@ -2,8 +2,6 @@ package gay.heimskr.tradeperipheral;
 
 import gay.heimskr.tradeperipheral.common.setup.Blocks;
 import gay.heimskr.tradeperipheral.common.setup.Registration;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,10 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
-
-import static cofh.thermal.core.ThermalCore.BLOCKS;
-import static cofh.thermal.lib.common.ThermalIDs.*;
-import static cofh.thermal.lib.common.ThermalIDs.ID_DYNAMO_GOURMAND;
 
 @Mod(TradePeripheral.MOD_ID)
 public class TradePeripheral {
@@ -61,17 +55,12 @@ public class TradePeripheral {
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
-		registerRenderLayers();
+
 	}
 
 	@SubscribeEvent
 	public void interModComms(InterModEnqueueEvent event) {
 
-	}
-
-	private void registerRenderLayers() {
-		RenderType cutout = RenderType.cutout();
-		ItemBlockRenderTypes.setRenderLayer(Blocks.MOB_JUICER.get(), cutout);
 	}
 
 }

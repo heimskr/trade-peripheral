@@ -3,7 +3,6 @@ package gay.heimskr.tradeperipheral.client;
 import dan200.computercraft.client.render.TurtleModelLoader;
 import gay.heimskr.tradeperipheral.TradePeripheral;
 import gay.heimskr.tradeperipheral.common.container.TraderScreen;
-import gay.heimskr.tradeperipheral.common.container.MobJuicerScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import gay.heimskr.tradeperipheral.common.setup.ContainerTypes;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -21,6 +20,5 @@ public class ClientRegistry {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         MenuScreens.register(ContainerTypes.TRADER_CONTAINER.get(), TraderScreen::new);
-        MenuScreens.register(ContainerTypes.MOB_JUICER_CONTAINER.get(), MobJuicerScreen::new);
     }
 }
